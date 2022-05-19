@@ -26,12 +26,12 @@ function Cart(){
             cart.map(function(a, i){
               return(
                 <tr key={i}>
-                  <td>{i+1}</td>
+                  <td>{cart[i].id}</td>
                   <td>{cart[i].name}</td>
                   <td>{cart[i].count}</td>
                   <td>
                     <button onClick={()=>{
-                      dispatch(changeCount(i))
+                      dispatch(changeCount(cart[i].id))
                     }}>+</button>
                   </td>
                 </tr>

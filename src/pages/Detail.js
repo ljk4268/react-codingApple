@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, } from "react-router-dom";
 import {Nav} from 'react-bootstrap';
+import { addItem } from '../store'
+import { useDispatch } from "react-redux";
 
 
 
@@ -12,6 +14,8 @@ function Detail(props){
   let [result, setResult] = useState('');
   let [탭, 탭변경] = useState(0);
   let [fade2, setFade2] = useState('');
+
+  let dispatch = useDispatch()
 
   function CheckNum(e){
     setResult(e.target.value)
@@ -43,7 +47,9 @@ function Detail(props){
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}원</p>
-          <button className="btn btn-danger">주문하기</button> 
+          <button className="btn btn-danger" onClick={()=>{
+            dispatch(addItem({id : `${찾은상품.id}`, name : `${찾은상품.title}`, count : 1}))
+          }}>주문하기</button> 
         </div>
       </div>
 
