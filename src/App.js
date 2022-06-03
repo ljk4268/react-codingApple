@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Navbar, Container, Nav} from 'react-bootstrap';
 import bg from './bg.png';
@@ -12,6 +12,14 @@ import Cart from './pages/Cart'
 
 function App() {
 
+  let obj = {name: 'kim'}
+  localStorage.setItem('data', JSON.stringify(obj))
+  let 꺼낸거 = localStorage.getItem('data')
+
+  useEffect( ()=>{
+    localStorage.setItem('watched', JSON.stringify( [] ))
+  }, [])
+
   let [shoes, setShose] = useState(data)
   let navigate = useNavigate();
   let [count, setCount] = useState(0);
@@ -20,7 +28,6 @@ function App() {
   return (
     <div className="App">
 
-      
       <Navbar bg="dark" variant="dark">
         <Container>
         <Navbar.Brand href="#home">ShoesShop</Navbar.Brand>
@@ -41,7 +48,7 @@ function App() {
                 {
                   shoes.map(function(a, i){
                     return(
-                        <Card  shoes={shoes[i]} i={i} key={i} />
+                        <Card shoes={shoes[i]} i={i} key={i} />
                     )
                   })
                 }
@@ -76,7 +83,11 @@ function App() {
           </>
         }/>
     
-    <Route path='/detail/:id' element={ <Detail shoes={shoes}/> }/>
+    <Route path='/detail/:id' element={ 
+    
+    <Detail shoes={shoes}  /> 
+  
+    }/>
 
     <Route path='*' element={<div>없는 페이지에요.</div>}/>
 
@@ -91,9 +102,14 @@ function App() {
 
 
 function Card(props){
+
+  let navigate = useNavigate();
+
   return(
     <div className="col-md-4">
-      <img src={'https://codingapple1.github.io/shop/shoes' + (props.i+1) +'.jpg'} width="80%" />
+      <img 
+      onClick={()=>{ navigate('/detail/' + props.i  ) }}
+      src={'https://codingapple1.github.io/shop/shoes' + (props.i+1) +'.jpg'} width="80%" />
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
     </div>
